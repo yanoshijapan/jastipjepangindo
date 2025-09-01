@@ -284,6 +284,16 @@
         <form id="submissionForm">
         
             <div class="input-group">
+                <label for="tanggalJastip">Pilih Tanggal Jastip</label>
+                <select id="tanggalJastip" name="tanggalJastip" required>
+                    <option value="" disabled selected>Pilih Tanggal</option>
+                    <option value="2025-09-15">15 September 2025</option>
+                    <option value="2025-09-27">27 September 2025</option>
+                    <option value="2025-10-22">22 Oktober 2025</option>
+                </select>
+            </div>
+
+            <div class="input-group">
                 <label for="nama">Nama Pengirim (di Jepang)</label>
                 <input type="text" id="nama" name="nama" required>
             </div>
@@ -379,11 +389,12 @@
     // === DEKLARASI VARIABEL GLOBAL ===
     // ================================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMMUJolQu2ApmEDFHhbcnuIyh34YZgH-HY5CGmoQezs2fJYJvB8WLUVoBv79RvVZDX/exec';
-    const STORAGE_KEY = 'formDataJepangIndo'; // Key diubah agar tidak bentrok dengan form lain
+    const STORAGE_KEY = 'formDataJepangIndo';
 
     const form = document.getElementById('submissionForm');
     
     // Variabel disesuaikan dengan ID elemen di HTML baru
+    const tanggalJastipSelect = document.getElementById('tanggalJastip'); // <-- VARIABEL BARU
     const namaInput = document.getElementById('nama');
     const waInput = document.getElementById('whatsapp');
     const namaPenerimaInput = document.getElementById('nama-penerima');
@@ -406,6 +417,7 @@
 
     function saveFormData() {
         const data = {
+            tanggalJastip: tanggalJastipSelect.value, // <-- DATA BARU DISIMPAN
             nama: namaInput.value,
             whatsapp: waInput.value,
             namaPenerima: namaPenerimaInput.value,
@@ -424,6 +436,7 @@
         const savedData = localStorage.getItem(STORAGE_KEY);
         if (savedData) {
             const data = JSON.parse(savedData);
+            tanggalJastipSelect.value = data.tanggalJastip || ''; // <-- DATA BARU DILOAD
             namaInput.value = data.nama || '';
             waInput.value = data.whatsapp || '';
             namaPenerimaInput.value = data.namaPenerima || '';
@@ -471,6 +484,7 @@
         try {
             // Mengambil data teks dari formulir yang SESUAI
             const textData = {
+                tanggalJastip: tanggalJastipSelect.value, // <-- DATA BARU DIKIRIM
                 nama: namaInput.value,
                 whatsapp: waInput.value,
                 namaPenerima: namaPenerimaInput.value,
