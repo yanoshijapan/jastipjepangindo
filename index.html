@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yanoshi Jastip - Jepang-Indo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #17a2b8;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --light-gray: #f9f9f9;
+            --dark-gray: #333;
+            --border-color: #ddd;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 1rem;
+            padding-top: 70px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        #consent-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        #consent-modal {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        #consent-modal h3 {
+            font-family: 'Poppins', sans-serif;
+            margin-top: 0;
+            text-align: center;
+        }
+        #terms-text {
+            max-height: 40vh;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        #terms-text img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px 0;
+        }
+        .consent-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .consent-controls label {
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        #agree-button {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary-color);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #agree-button:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .header-btn {
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        
+        .blue-btn {
+            background-color: #007bff;
+        }
+        
+        .blue-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+        }
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        input[type="text"], input[type="tel"], textarea, input[type="file"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .radio-group input[type="radio"] {
+            width: auto;
+        }
+        .radio-group label {
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            box-sizing: border-box;
+            background-color: var(--primary-color);
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover:not(:disabled) {
+            background-color: #138496;
+        }
+        .submit-btn:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+        }
+        
+        #progressBarContainer {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 1.25rem;
+            display: none;
+        }
+        #progressBar {
+            width: 0%;
+            height: 25px;
+            background-color: var(--success-color);
+            border-radius: 5px;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            font-size: 14px;
+            transition: width 0.3s ease;
+        }
+        #status {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+        .whatsapp-btn {
+            display: none;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: var(--success-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="consent-overlay">
+    <div id="consent-modal">
+        <h3>Syarat & Ketentuan Jastip</h3>
+        <div id="terms-text">
+            <p><strong>Harap baca dengan saksama sebelum melanjutkan:</strong></p>
+            <ul>
+                <li>Barang yang dikirim adalah barang legal dan tidak melanggar hukum di Indonesia maupun Jepang. Seperti obat-obatan terlarang, senjata api, senjata tajam, bahan peledak, barang yang mudah terbakar, barang palsu, uang palsu dan beberapa barang spesifik dibawah ini :</li>
+                <br>
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj7b7c53e0oYp2UvYg2gQ278b1h686zF-k30tP91yV6-G614f04sP6Vd1C2vI76V8Xvj7V3_mU-689zQnJ1zVd3f9b8c0a/s1600/larangan.jpg" alt="Barang Dilarang">
+                
+                <p>Jika barang tersebut tetap di kirim ke basecamp kami, maka kami akan kembalikan barang tersebut ke pengirim.</p>
+                <li>Kami tidak bertanggung jawab atas kerusakan barang yang disebabkan oleh pihak ketiga (maskapai/kurir).</li>
+                <li>Keterlambatan pengiriman yang disebabkan oleh faktor di luar kendali kami (cuaca, delay pesawat, dll) akan diinformasikan sesegera mungkin.</li>
+                <li>Dengan melanjutkan, Anda menyatakan bahwa semua informasi yang diberikan adalah benar dan akurat.</li>
+                <li>Pajak bea cukai (jika ada) akan menjadi tanggung jawab penerima.</li>
+            </ul>
+        </div>
+        <div class="consent-controls">
+            <label>
+                <input type="checkbox" id="consent-checkbox">
+                Saya telah membaca dan menyetujui semua syarat & ketentuan yang berlaku.
+            </label>
+            <button id="agree-button" disabled>Setuju & Lanjutkan</button>
+        </div>
+    </div>
+</div>
+
+<main class="hidden">
+    <header class="fixed-header">
+        <div class="header-content">
+            <a href="https://yanoshijapan.github.io/jastipyanoshi/" class="header-btn blue-btn">Home</a>
+        </div>
+    </header>
+        
+    <div class="container">
+        <h1>Yanoshi Jastip<br>Jepang - Indonesia</h1>
+        <form id="submissionForm">
+        
+            <div class="input-group">
+                <label for="nama">Nama Pengirim (di Jepang)</label>
+                <input type="text" id="nama" name="nama" required>
+            </div>
+            <div class="input-group">
+                <label for="whatsapp">Nomor WhatsApp Pengirim</label>
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 08012345678" required>
+            </div>
+        
+            <div class="input-group">
+                <label for="nama-penerima">Nama Penerima (di Indonesia)</label>
+                <input type="text" id="nama-penerima" name="namaPenerima" required>
+            </div>
+            <div class="input-group">
+                <label for="whatsapp-penerima">Nomor WhatsApp atau Telepon Penerima Indonesia</label>
+                <input type="tel" id="whatsapp-penerima" name="whatsappPenerima" placeholder="Contoh: 08123456789" required>
+            </div>
+
+            <div class="input-group">
+                <label for="alamatIndo">Alamat lengkap di Indonesia</label>
+                <textarea id="alamatIndo" name="alamatIndo" rows="4" required></textarea>
+            </div>
+            <div class="input-group">
+                <label for="kodePosIndo">Kode Pos Alamat Indonesia</label>
+                <input type="text" id="kodePosIndo" name="kodePosIndo" pattern="\d{5}" title="Harus 5 digit angka" placeholder="Contoh: 17111" required>
+            </div>
+
+            <div class="input-group">
+                <label for="barangJastip">Barang yang Ingin di Jastip</label>
+                <textarea id="barangJastip" name="barangJastip" rows="4" placeholder="Tulis beserta kuantiti / jumlah barang per item&#10;Contoh: tas = 1 pcs, dompet = 2 pcs, dll" required></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Apakah ada barang yang perlu kami belanjakan dari Jepang terlebih dahulu?</label>
+                <div class="radio-group">
+                    <input type="radio" id="belanjaYa" name="perluBelanja" value="Ya" required>
+                    <label for="belanjaYa">Ya</label>
+                    <input type="radio" id="belanjaTidak" name="perluBelanja" value="Tidak">
+                    <label for="belanjaTidak">Tidak</label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="jenisKirim">Request Jenis Pengiriman</label>
+                <select id="jenisKirim" name="jenisKirim" required>
+                    <option value="" disabled selected>Pilih Jenis</option>
+                    <option value="COD">COD</option>
+                    <option value="Non COD">Non COD</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="asuransi">Pakai Asuransi?</label>
+                <select id="asuransi" name="asuransi" required>
+                    <option value="" disabled selected>Pilih Jawaban</option>
+                    <option value="Ya">Ya</option>
+                    <option value="Tidak">Tidak</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submit-btn">Submit Form</button>
+            
+            <div id="progressBarContainer">
+                <div id="progressBar">0%</div>
+            </div>
+            <div id="status"></div>
+            <a href="#" id="whatsapp-btn" class="whatsapp-btn" target="_blank">Konfirmasi ke WhatsApp</a>
+
+        </form>
+    </div>
+</main>
+
+<script>
+    // ================================================================
+    // === LOGIKA UNTUK MODAL PERSETUJUAN ===
+    // ================================================================
+    const consentOverlay = document.getElementById('consent-overlay');
+    const consentCheckbox = document.getElementById('consent-checkbox');
+    const agreeButton = document.getElementById('agree-button');
+    const mainContent = document.querySelector('main');
+
+    consentCheckbox.addEventListener('change', () => {
+        agreeButton.disabled = !consentCheckbox.checked;
+    });
+
+    agreeButton.addEventListener('click', () => {
+        if (consentCheckbox.checked) {
+            consentOverlay.classList.add('hidden');
+            mainContent.classList.remove('hidden');
+        }
+    });
+
+    // ================================================================
+    // === DEKLARASI VARIABEL GLOBAL ===
+    // ================================================================
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMMUJolQu2ApmEDFHhbcnuIyh34YZgH-HY5CGmoQezs2fJYJvB8WLUVoBv79RvVZDX/exec';
+    const STORAGE_KEY = 'formDataJepangIndo'; // Key diubah agar tidak bentrok dengan form lain
+
+    const form = document.getElementById('submissionForm');
+    
+    // Variabel disesuaikan dengan ID elemen di HTML baru
+    const namaInput = document.getElementById('nama');
+    const waInput = document.getElementById('whatsapp');
+    const namaPenerimaInput = document.getElementById('nama-penerima');
+    const waPenerimaInput = document.getElementById('whatsapp-penerima');
+    const alamatIndoInput = document.getElementById('alamatIndo');
+    const kodePosIndoInput = document.getElementById('kodePosIndo');
+    const barangJastipInput = document.getElementById('barangJastip');
+    const jenisKirimSelect = document.getElementById('jenisKirim');
+    const asuransiSelect = document.getElementById('asuransi');
+    
+    const submitBtn = document.getElementById('submit-btn');
+    const progressBarContainer = document.getElementById('progressBarContainer');
+    const progressBar = document.getElementById('progressBar');
+    const statusDiv = document.getElementById('status');
+    const whatsappBtn = document.getElementById('whatsapp-btn');
+
+    // ================================================================
+    // === FUNGSI-FUNGSI BANTU ===
+    // ================================================================
+
+    function saveFormData() {
+        const data = {
+            nama: namaInput.value,
+            whatsapp: waInput.value,
+            namaPenerima: namaPenerimaInput.value,
+            whatsappPenerima: waPenerimaInput.value,
+            alamatIndo: alamatIndoInput.value,
+            kodePosIndo: kodePosIndoInput.value,
+            barangJastip: barangJastipInput.value,
+            perluBelanja: document.querySelector('input[name="perluBelanja"]:checked')?.value || '',
+            jenisKirim: jenisKirimSelect.value,
+            asuransi: asuransiSelect.value,
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function loadFormData() {
+        const savedData = localStorage.getItem(STORAGE_KEY);
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            namaInput.value = data.nama || '';
+            waInput.value = data.whatsapp || '';
+            namaPenerimaInput.value = data.namaPenerima || '';
+            waPenerimaInput.value = data.whatsappPenerima || '';
+            alamatIndoInput.value = data.alamatIndo || '';
+            kodePosIndoInput.value = data.kodePosIndo || '';
+            barangJastipInput.value = data.barangJastip || '';
+            jenisKirimSelect.value = data.jenisKirim || '';
+            asuransiSelect.value = data.asuransi || '';
+            
+            if (data.perluBelanja) {
+                const radioBtn = document.querySelector(`input[name="perluBelanja"][value="${data.perluBelanja}"]`);
+                if(radioBtn) radioBtn.checked = true;
+            }
+        }
+    }
+
+    function clearFormData() {
+        localStorage.removeItem(STORAGE_KEY);
+    }
+
+    const handleBeforeUnload = (event) => {
+        event.preventDefault();
+        event.returnValue = '';
+    };
+
+    // ================================================================
+    // === EVENT LISTENERS ===
+    // ================================================================
+
+    document.addEventListener('DOMContentLoaded', loadFormData);
+    form.addEventListener('input', saveFormData);
+    form.addEventListener('input', () => { window.addEventListener('beforeunload', handleBeforeUnload); });
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Mengirim...';
+        statusDiv.innerText = '';
+        whatsappBtn.style.display = 'none';
+        progressBarContainer.style.display = 'block';
+        progressBar.style.width = '25%';
+        progressBar.innerText = 'Mempersiapkan data...';
+        
+        try {
+            // Mengambil data teks dari formulir yang SESUAI
+            const textData = {
+                nama: namaInput.value,
+                whatsapp: waInput.value,
+                namaPenerima: namaPenerimaInput.value,
+                whatsappPenerima: waPenerimaInput.value,
+                alamatIndo: alamatIndoInput.value,
+                kodePosIndo: kodePosIndoInput.value,
+                barangJastip: barangJastipInput.value,
+                perluBelanja: document.querySelector('input[name="perluBelanja"]:checked')?.value || 'Tidak diisi',
+                jenisKirim: jenisKirimSelect.value,
+                asuransi: asuransiSelect.value
+            };
+            
+            // Karena tidak ada file, payload adalah textData itu sendiri
+            const payload = textData;
+        
+            progressBar.style.width = '50%';
+            progressBar.innerText = 'Mengunggah data...';
+
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                redirect: "follow",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify(payload)
+            });
+        
+            progressBar.style.width = '80%';
+            progressBar.innerText = 'Memproses respons server...';
+
+            if (response.ok) {
+                const result = await response.json();
+                if (result.status === 'success') {
+                    statusDiv.innerText = 'Data berhasil dikirim!';
+                    statusDiv.style.color = 'var(--success-color)';
+                    
+                    const tanggalHariIni = new Date();
+                    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                    const tanggalFormatted = tanggalHariIni.toLocaleDateString('id-ID', options);
+                    
+                    const whatsappMessage = `Hai min, Saya ${textData.nama} sudah isi form Jastip Jepang-Indo per tanggal ${tanggalFormatted}. Mohon dicek ya, terima kasih!`;
+                    const encodedMessage = encodeURIComponent(whatsappMessage);
+                    // Ganti 628xxxxxxxxxx dengan nomor WhatsApp tujuan Anda
+                    const whatsappLink = `https://wa.me/6281315431551?text=${encodedMessage}`;
+                    
+                    whatsappBtn.href = whatsappLink;
+                    whatsappBtn.style.display = 'block';
+                    form.reset();
+                    clearFormData();
+                    window.removeEventListener('beforeunload', handleBeforeUnload);
+                    
+                } else {
+                    throw new Error(result.message || 'Terjadi kesalahan di server.');
+                }
+            } else {
+                throw new Error(`Gagal terhubung ke server (Status: ${response.status})`);
+            }
+            
+            progressBar.style.width = '100%';
+            progressBar.innerText = 'Selesai!';
+
+        } catch (error) {
+            statusDiv.innerText = `Error: ${error.message}`;
+            statusDiv.style.color = 'var(--error-color)';
+            progressBar.style.backgroundColor = 'var(--error-color)';
+            progressBar.innerText = 'Gagal';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'Submit Form';
+            setTimeout(() => {
+                if(progressBar.style.backgroundColor !== 'var(--error-color)') {
+                    progressBarContainer.style.display = 'none';
+                    progressBar.style.width = '0%';
+                }
+                progressBar.style.backgroundColor = 'var(--success-color)';
+            }, 5000);
+        }
+    });
+</script>
+
+</body>
+</html>
