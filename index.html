@@ -351,6 +351,16 @@
                     <option value="Tidak">Tidak</option>
                 </select>
             </div>
+
+            <div class="input-group">
+                <label for="akunSosmed">Akun Sosmed (Tulis salah satu : Instagram, Tiktok atau Line)</label>
+                <input type="text" id="akunSosmed" name="akunSosmed" placeholder="Contoh: IG : qwerty" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="kodeVoucher">Kode Voucher/Referral (Opsional)</label>
+                <input type="text" id="kodeVoucher" name="kodeVoucher">
+            </div>
             
             <button type="submit" class="submit-btn" id="submit-btn">Submit Form</button>
             
@@ -403,6 +413,8 @@
     const barangJastipInput = document.getElementById('barangJastip');
     const jenisKirimSelect = document.getElementById('jenisKirim');
     const asuransiSelect = document.getElementById('asuransi');
+    const kodeVoucherInput = document.getElementById('kodeVoucher');
+    const akunSosmedInput = document.getElementById('akunSosmed');
     
     const submitBtn = document.getElementById('submit-btn');
     const progressBarContainer = document.getElementById('progressBarContainer');
@@ -427,6 +439,8 @@
             perluBelanja: document.querySelector('input[name="perluBelanja"]:checked')?.value || '',
             jenisKirim: jenisKirimSelect.value,
             asuransi: asuransiSelect.value,
+            kodeVoucher: kodeVoucherInput.value,
+            akunSosmed: akunSosmedInput.value,
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
@@ -445,6 +459,8 @@
             barangJastipInput.value = data.barangJastip || '';
             jenisKirimSelect.value = data.jenisKirim || '';
             asuransiSelect.value = data.asuransi || '';
+            kodeVoucherInput.value = data.kodeVoucher || '';
+            akunSosmedInput.value = data.akunSosmed || '';
             
             if (data.perluBelanja) {
                 const radioBtn = document.querySelector(`input[name="perluBelanja"][value="${data.perluBelanja}"]`);
@@ -493,7 +509,9 @@
                 barangJastip: barangJastipInput.value,
                 perluBelanja: document.querySelector('input[name="perluBelanja"]:checked')?.value || 'Tidak diisi',
                 jenisKirim: jenisKirimSelect.value,
-                asuransi: asuransiSelect.value
+                asuransi: asuransiSelect.value,
+                kodeVoucher: kodeVoucherInput.value,
+                akunSosmed: akunSosmedInput.value
             };
             
             // Karena tidak ada file, payload adalah textData itu sendiri
