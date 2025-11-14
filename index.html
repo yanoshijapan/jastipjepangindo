@@ -841,17 +841,18 @@
                 if (result.status === 'success') {
                     statusDiv.innerText = '✅ Data berhasil dikirim!';
                     statusDiv.style.color = 'var(--success-color)';
-                    
+
                     const tanggalHariIni = new Date();
                     const options = { day: 'numeric', month: 'long', year: 'numeric' };
                     const tanggalFormatted = tanggalHariIni.toLocaleDateString('id-ID', options);
                     
-                    const whatsappMessage = `Hai min, Saya ${textData.nama} sudah isi form Jastip Jepang-Indo per tanggal ${tanggalFormatted}. Mohon dicek ya, terima kasih!`;
-                    const encodedMessage = encodeURIComponent(whatsappMessage);
-                    const whatsappLink = `https://wa.me/6281315431551?text=${encodedMessage}`;
-                    
-                    whatsappBtn.href = whatsappLink;
+                    const lineMessage = `Hai min, Saya ${textData.nama} sudah isi form Jastip Indo-Jepang per tanggal ${tanggalFormatted}. Mohon dicek ya, terima kasih!`;
+                    const encodedMessage = encodeURIComponent(lineMessage);
+                    const lineLink = `https://line.me/ti/p/@506hjesi`;
+
+                    whatsappBtn.href = lineLink;
                     whatsappBtn.style.display = 'block';
+                    
                     form.reset();
                     hargaBarangContainer.classList.remove('show');
                     clearFormData();
