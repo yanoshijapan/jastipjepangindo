@@ -2,487 +2,363 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yanoshi Jastip - Jepang-Indo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Yanoshi Jastip - Jepang Indo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-color: #17a2b8;
-            --success-color: #28a745;
-            --error-color: #dc3545;
-            --warning-color: #ffc107;
-            --light-gray: #f9f9f9;
-            --dark-gray: #333;
-            --border-color: #ddd;
-            --info-bg: #e7f3ff;
-            --info-border: #b3d9ff;
+            /* Palette Warna (Diambil dari IndoJp style namun disesuaikan dengan nuansa Yanoshi) */
+            --primary: #17a2b8; /* Cyan-ish Blue dari JapanIndo original */
+            --primary-dark: #117a8b;
+            --accent: #0ea5e9;
+            --success: #10b981; 
+            --success-dark: #059669;
+            --error: #ef4444;
+            --warning: #ffc107;
+            --surface: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
-        * {
-            box-sizing: border-box;
-        }
+
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            margin: 0;
-            padding: 1rem;
-            padding-top: 70px;
-            -webkit-text-size-adjust: 100%;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
+            margin: 0; padding: 0; min-height: 100vh;
+            /* Background Gradient ala IndoJp */
+            background: radial-gradient(circle at 0% 0%, #d1e9ff 0%, transparent 50%), 
+                        radial-gradient(circle at 100% 0%, #e0f7fa 0%, transparent 50%), 
+                        radial-gradient(circle at 100% 100%, #d1e9ff 0%, transparent 50%), 
+                        radial-gradient(circle at 0% 100%, #e0f7fa 0%, transparent 50%), #f8fafc;
+            background-attachment: fixed;
         }
 
-        /* MODAL CONSENT - IMPROVED */
+        /* --- POPUP SYARAT & KETENTUAN (Style IndoJp) --- */
         #consent-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            backdrop-filter: blur(8px);
         }
+
         #consent-modal {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            max-width: 650px;
-            width: 90%;
+            background: #ffffff;
+            width: 90%; max-width: 600px;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column;
             max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
+
+        @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
         #consent-modal h3 {
-            font-family: 'Poppins', sans-serif;
-            margin-top: 0;
-            text-align: center;
-            color: var(--primary-color);
-            font-size: 1.5rem;
+            color: var(--primary); text-align: center; margin: 0 0 15px 0;
+            font-size: 1.4rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;
         }
+
         #terms-text {
-            max-height: 50vh;
-            overflow-y: auto;
-            border: 2px solid var(--info-border);
-            background-color: var(--info-bg);
-            padding: 1.25rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            border-radius: 8px;
-            line-height: 1.6;
-        }
-        #terms-text strong {
-            color: var(--error-color);
-        }
-        #terms-text ul {
-            padding-left: 1.5rem;
-        }
-        #terms-text li {
-            margin-bottom: 0.75rem;
-        }
-        #terms-text img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 10px 0;
-            border-radius: 6px;
-        }
-        .consent-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-        .consent-controls label {
-            font-size: 0.95rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .consent-controls input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-        #agree-button {
-            width: 100%;
-            padding: 0.9rem;
-            border: none;
-            border-radius: 8px;
-            background-color: var(--primary-color);
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        #agree-button:hover:not(:disabled) {
-            background-color: #138496;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
-        }
-        #agree-button:disabled {
-            background-color: #a0a0a0;
-            cursor: not-allowed;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* HEADER */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 12px 0;
-            z-index: 1000;
-        }
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .header-btn {
-            padding: 10px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            color: white;
-            transition: all 0.3s ease;
-            background-color: #007bff;
-        }
-        .header-btn:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            flex: 1; overflow-y: auto;
+            background: #f8fafc; padding: 15px;
+            border: 1px solid #cbd5e1; border-radius: 12px;
+            margin-bottom: 20px; font-size: 0.9rem; line-height: 1.6; color: #334155;
+            scroll-behavior: smooth;
         }
         
-        /* CONTAINER */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        #terms-text img {
+            max-width: 100%; height: auto; border-radius: 8px; 
+            margin: 10px 0; border: 1px solid #e2e8f0;
         }
+
+        .consent-controls { border-top: 1px solid #f1f5f9; padding-top: 15px; }
+        
+        .consent-controls label {
+            display: flex; gap: 12px; align-items: flex-start;
+            cursor: pointer; font-size: 0.9rem; color: var(--text-main); margin-bottom: 15px;
+            padding: 10px; border-radius: 8px; transition: background 0.2s;
+        }
+        
+        .consent-controls label:hover { background: #eff6ff; }
+
+        #consent-checkbox { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--primary); cursor: pointer; }
+        #consent-checkbox:disabled { cursor: not-allowed; filter: grayscale(100%); opacity: 0.6; }
+        #consent-checkbox:disabled + span { color: #94a3b8; }
+
+        #agree-button {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            font-weight: 700; font-size: 1rem; background: var(--primary); color: white;
+            cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+        }
+        
+        #agree-button:disabled {
+            background: #cbd5e1; color: #64748b; cursor: not-allowed; box-shadow: none;
+        }
+        
+        #agree-button:not(:disabled):hover {
+            background: var(--primary-dark); transform: translateY(-2px);
+        }
+
+        /* --- GLASS CONTAINER (Main Form) --- */
+        .glass-container {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-lg);
+            max-width: 700px;
+            margin: 90px auto 40px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- HEADER --- */
+        .fixed-header {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
+            padding: 15px 5%; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .header-logo {
+            font-weight: 800; font-size: 1.2rem; color: var(--primary);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .header-logo img { height: 35px; width: auto; } 
+        
+        .header-btn {
+            background: var(--text-main); color: white; padding: 8px 20px;
+            border-radius: 50px; text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .header-btn:hover { transform: translateY(-2px); background: #0f172a; }
+        
         h1 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            text-align: center;
-            font-size: 1.75rem;
-            color: var(--dark-gray);
-            margin-bottom: 1.5rem;
-        }
-        h1 span {
-            color: var(--primary-color);
+            text-align: center; font-weight: 800; font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;
         }
 
-        /* FORM SECTIONS */
-        .form-section {
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 2px solid var(--light-gray);
-        }
-        .form-section:last-of-type {
-            border-bottom: none;
-        }
-        .section-title {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background-color: var(--primary-color);
-            border-radius: 2px;
-        }
-
-        /* INPUT GROUPS */
-        .input-group {
-            margin-bottom: 1.25rem;
-        }
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--dark-gray);
-        }
-        .required::after {
-            content: ' *';
-            color: var(--error-color);
-        }
-        input[type="text"], 
-        input[type="tel"], 
-        input[type="number"],
-        textarea, 
-        select {
-            width: 100%;
-            padding: 0.85rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+        /* --- INPUTS --- */
+        .input-group { margin-bottom: 1.5rem; position: relative; }
+        label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-main); }
+        .required::after { content: ' *'; color: var(--error); }
+        
+        input[type="text"], input[type="tel"], input[type="number"], textarea, select {
+            width: 100%; padding: 16px; border: 2px solid #e2e8f0; border-radius: var(--radius-md);
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
+            background: #fff; box-sizing: border-box; transition: all 0.3s;
         }
         input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.1);
-        }
-        textarea {
-            resize: vertical;
-            min-height: 100px;
+            outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(23, 162, 184, 0.1);
         }
         
-        /* HELPER TEXT */
         .helper-text {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 0.35rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.3rem;
-        }
-        .helper-text::before {
-            content: 'ℹ️';
-            font-size: 0.9rem;
-        }
+						/* Pastikan tulisan dianggap sebagai blok terpisah */
+						display: block !important; 
+						width: 100%;
+						
+						/* Beri jarak atas agar tidak nempel dengan tombol */
+						margin-top: 10px !important; 
+						
+						/* Atur warna dan ukuran agar rapi */
+						font-size: 0.8rem; 
+						color: var(--text-light);
+						line-height: 1.4;
+				}
+        .helper-text::before { content: 'ℹ️'; font-size: 0.9rem; }
 
-        /* INFO BOX */
-        .info-box {
-            background-color: var(--info-bg);
-            border-left: 4px solid var(--primary-color);
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1.25rem;
-            font-size: 0.9rem;
+        /* --- RADIO CARDS (Pilihan Kotak) --- */
+        .radio-cards-container { 
+						display: grid; 
+						grid-template-columns: 1fr 1fr; 
+						gap: 20px; 
+						margin-bottom: 30px !important;
+				}
+        .radio-card { 
+						cursor: pointer; 
+						position: relative; 
+				}
+        .radio-card input { 
+						position: absolute; 
+						opacity: 0; 
+				}
+        .card-content {
+            display: flex; 
+						flex-direction: column; 
+						align-items: center; 
+						justify-content: center; 
+						padding: 7px 5px;
+            background: #fff; 
+						border: 2px solid #e2e8f0; 
+						border-radius: var(--radius-sm); 
+						transition: all 0.3s;
+            text-align: center; 
+						height: 100%;
         }
-        .info-box strong {
-            color: var(--primary-color);
-        }
-
-        /* RADIO & CHECKBOX */
-        .radio-group {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .radio-group input[type="radio"] {
-            width: auto;
-            margin: 0;
-        }
-        .radio-group label {
-            margin-bottom: 0;
-            font-weight: 400;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        /* CONDITIONAL FIELD ANIMATION */
-        .conditional-field {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, opacity 0.4s ease;
-            opacity: 0;
-        }
-        .conditional-field.show {
-            max-height: 200px;
-            opacity: 1;
-        }
-
-        /* BUTTONS */
-        .submit-btn {
-            width: 100%;
-            padding: 1.1rem;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.15rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: center;
-            background-color: var(--primary-color);
-            color: white;
-            transition: all 0.3s ease;
-            margin-top: 1.5rem;
-        }
-        .submit-btn:hover:not(:disabled) {
-            background-color: #138496;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(23, 162, 184, 0.3);
-        }
-        .submit-btn:disabled {
-            background-color: #a0a0a0;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .card-content span { 
+						font-weight: 600; 
+						font-size: 0.85rem;
+				}
+        .radio-card input:checked + .card-content { 
+						border-color: var(--primary); 
+						background: #eff6ff; 
+						color: var(--primary); 
+				}
         
-        /* PROGRESS BAR */
-        #progressBarContainer {
-            width: 100%;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-            margin-top: 1.25rem;
-            display: none;
-            overflow: hidden;
+        /* --- CONDITIONAL FIELD ANIMATION --- */
+        .conditional-field {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.4s ease;
+            opacity: 0; margin-top: 0;
         }
-        #progressBar {
-            width: 0%;
-            height: 30px;
-            background: linear-gradient(90deg, var(--success-color), #20c997);
-            border-radius: 8px;
-            text-align: center;
-            line-height: 30px;
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            transition: width 0.3s ease;
-        }
-        #status {
-            text-align: center;
-            margin-top: 15px;
-            font-weight: 600;
-            font-size: 1rem;
-        }
+        .conditional-field.show { max-height: 200px; opacity: 1; margin-top: 15px; }
 
-        /* WHATSAPP BUTTON */
-        .whatsapp-btn {
-            display: none;
-            margin-top: 15px;
-            padding: 12px 24px;
-            background-color: var(--success-color);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .whatsapp-btn:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
-        }
+        /* --- NAV & PROGRESS --- */
+        .progress-track { background: #e2e8f0; height: 6px; border-radius: 10px; margin: 20px 0 30px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; transition: width 0.5s; }
+        .step-text { text-align: center; font-size: 0.85rem; color: var(--text-light); font-weight: 600; margin-bottom: 30px; letter-spacing: 1px; }
 
-        /* VALIDATION ERRORS */
-        .error-message {
-            color: var(--error-color);
-            font-size: 0.85rem;
-            margin-top: 0.35rem;
-            display: none;
+        .nav-buttons { display: flex; gap: 15px; margin-top: 30px; }
+        .btn {
+            flex: 1; padding: 16px; border: none; border-radius: var(--radius-sm);
+            font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        input.invalid, textarea.invalid, select.invalid {
-            border-color: var(--error-color);
-        }
-        input.invalid ~ .error-message,
-        textarea.invalid ~ .error-message,
-        select.invalid ~ .error-message {
-            display: block;
-        }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3); }
+        .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
+        
+        .btn-success { background: var(--success); color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+        .btn-success:hover { background: var(--success-dark); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); }
+        
+        .btn-secondary { background: #f1f5f9; color: var(--text-main); }
 
-        /* RESPONSIVE */
+        .form-step { display: none; animation: fadeInSlide 0.5s ease; }
+        .form-step.active { display: block; }
+        @keyframes fadeInSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- REVIEW & SUCCESS --- */
+        .review-list { margin-top: 10px; }
+        .review-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .review-item:last-child { border-bottom: none; }
+        .review-label { color: var(--text-light); font-size: 0.9rem; }
+        .review-value { font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
+
+        /* Fullscreen Loader */
+        #circular-loader-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.95); z-index: 5000;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .spinner {
+            width: 60px; height: 60px; border: 5px solid #e2e8f0;
+            border-top: 5px solid var(--primary); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { font-weight: 600; color: var(--primary); font-size: 1.1rem; }
+
         @media (max-width: 600px) {
-            .container {
-                padding: 1.5rem;
-            }
-            h1 {
-                font-size: 1.4rem;
-            }
-            .section-title {
-                font-size: 1rem;
-            }
+            .glass-container { 
+								padding: 1.5rem; 
+								width: 90%; 
+						}
+            .nav-buttons { 
+								flex-direction: column-reverse; 
+						}
+            .fixed-header { 
+								padding: 15px 1rem; 
+						}
+            .radio-cards-container { 
+								/* Paksa tetap 2 kolom (bersebelahan) */
+								grid-template-columns: 1fr 1fr !important; 
+								gap: 20px; /* Jarak antar kotak lebih rapat */
+								margin-bottom: 30px !important;
+						}
+						.card-content {
+								padding: 5px 4px !important; /* Padding sangat tipis */
+								min-height: auto; /* Hilangkan tinggi minimum jika ada */
+						}
+						.card-content span {
+								font-size: 0.75rem !important; /* Ukuran font lebih kecil (sekitar 12px) */
+								line-height: 1.2; /* Jarak antar baris teks lebih rapat */
+						}
         }
     </style>
 </head>
 <body>
 
-<!-- MODAL CONSENT -->
 <div id="consent-overlay">
     <div id="consent-modal">
         <h3>📋 Syarat & Ketentuan Jastip</h3>
         <div id="terms-text">
-            <p><strong>⚠️ Harap baca dengan saksama sebelum melanjutkan:</strong></p>
+            <p><strong>⚠️ Harap baca dengan saksama dan scroll sampai habis sebelum melanjutkan:</strong></p>
             <ul>
                 <li><strong>Barang Legal:</strong> Barang yang dikirim adalah barang legal dan tidak melanggar hukum di Indonesia maupun Jepang. Seperti obat-obatan terlarang, senjata api, senjata tajam, bahan peledak, barang yang mudah terbakar, barang palsu, uang palsu dan beberapa barang spesifik dibawah ini:</li>
-                <br>
-                <img src="https://yanoshijapan.github.io/asetonline/barangumum.jpg" alt="Barang Dilarang">
-                <img src="https://yanoshijapan.github.io/asetonline/barangspesifik.jpg" alt="Barang Dilarang">
                 
-                <p><strong>Jika barang tersebut tetap dikirim ke basecamp kami, maka kami akan kembalikan barang tersebut ke pengirim.</strong></p>
+                <div style="text-align: center; margin: 15px 0;">
+                    <img src="https://yanoshijapan.github.io/asetonline/barangumum.jpg" alt="Barang Dilarang Umum" loading="lazy">
+                    <img src="https://yanoshijapan.github.io/asetonline/barangspesifik.jpg" alt="Barang Dilarang Spesifik" loading="lazy">
+                </div>
+
+                <li><strong style="color: var(--error);">PENTING:</strong> Jika barang tersebut tetap dikirim ke basecamp kami, maka kami akan kembalikan barang tersebut ke pengirim.</li>
                 <li><strong>Tanggung Jawab:</strong> Kami tidak bertanggung jawab atas kerusakan barang yang disebabkan oleh pihak ketiga (maskapai/kurir).</li>
                 <li><strong>Keterlambatan:</strong> Keterlambatan pengiriman yang disebabkan oleh faktor di luar kendali kami (cuaca, delay pesawat, dll) akan diinformasikan sesegera mungkin.</li>
                 <li><strong>Keakuratan Data:</strong> Dengan melanjutkan, Anda menyatakan bahwa semua informasi yang diberikan adalah benar dan akurat.</li>
                 <li><strong>Pajak & Bea Cukai:</strong> Pajak bea cukai (jika ada) akan menjadi tanggung jawab penerima.</li>
+                <li style="margin-bottom: 50px;"><strong>Silakan scroll sampai habis untuk membuka tombol setuju.</strong></li>
             </ul>
         </div>
         <div class="consent-controls">
-            <label>
-                <input type="checkbox" id="consent-checkbox">
-                Saya telah membaca dan menyetujui semua syarat & ketentuan yang berlaku.
+            <label id="label-checkbox" title="Baca sampai bawah untuk membuka kunci">
+                <input type="checkbox" id="consent-checkbox" disabled>
+                <span>Saya telah membaca dan menyetujui semua syarat & ketentuan yang berlaku.</span>
             </label>
-            <button id="agree-button" disabled>✅ Setuju & Lanjutkan</button>
+            <button id="agree-button" disabled>Setuju & Lanjutkan</button>
         </div>
     </div>
 </div>
 
-<main class="hidden">
-    <header class="fixed-header">
-        <div class="header-content">
-            <a href="https://yanoshijapan.github.io/jastipyanoshi/" class="header-btn">🏠 Home</a>
-        </div>
-    </header>
+<header class="fixed-header">
+    <div class="header-logo">
+				<img src="https://yanoshijapan.github.io/jastip/jastip%202.png" alt="Yanoshi Logo">
+    </div>
+    <a href="https://yanoshijapan.github.io/jastipyanoshi/" class="header-btn">
+        🏠 Ke Website
+    </a>
+</header>
+
+<main>
+    <div class="glass-container">
+        <h1>Yanoshi Jastip<br><span style="color: var(--primary); font-size: 1.2rem;">Jepang ✈️ Indonesia</span></h1>
         
-    <div class="container">
-        <h1>Yanoshi Jastip<br><span>Jepang → Indonesia</span></h1>
-        
-        <div class="info-box">
-            <strong>📦 Informasi Penting:</strong> Pastikan semua data yang Anda masukkan sudah benar. Data ini akan digunakan untuk proses pengiriman barang Anda.
-        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="step-text" id="step-text">1/7</div>
 
         <form id="submissionForm">
-            <!-- SECTION 1: JADWAL -->
-            <div class="form-section">
-                <div class="section-title">📅 Jadwal Pengiriman</div>
+            
+            <div class="form-step active" data-step="1">
                 <div class="input-group">
-                    <label for="tanggalJastip" class="required">Pilih Tanggal Jastip</label>
+                    <label for="tanggalJastip" class="required">Pilih Tanggal Keberangkatan (dari Jepang)</label>
                     <select id="tanggalJastip" name="tanggalJastip" required>
                         <option value="" disabled selected>-- Pilih Tanggal --</option>
-                        <option value="4 November 2025" disabled>4 November 2025 (CLOSE)</option>
-                        <option value="14 November 2025" disabled>14 November 2025 (CLOSE)</option>
-                        <option value="26 November 2025">26 November 2025</option>
+                        <option value="26 November 2025" disabled>26 November 2025 CLOSE)</option>
                         <option value="Desember 2025">Desember 2025 (tanggal menyusul)</option>
+												<option value="Januari 2026">Januari 2026 (tanggal menyusul)</option>
                     </select>
-                    <div class="helper-text">Pilih tanggal keberangkatan barang dari Jepang</div>
                 </div>
             </div>
 
-            <!-- SECTION 2: DATA PENGIRIM -->
-            <div class="form-section">
-                <div class="section-title">👤 Data Pengirim (di Jepang)</div>
+            <div class="form-step" data-step="2">
+                <h3 style="color: var(--primary);">👤 Data Pengirim (di Jepang)</h3>
                 <div class="input-group">
                     <label for="nama" class="required">Nama Pengirim</label>
                     <input type="text" id="nama" name="nama" placeholder="Contoh: Yuki Tanaka" required>
@@ -490,14 +366,12 @@
                 <div class="input-group">
                     <label for="whatsapp" class="required">Nomor WhatsApp Pengirim</label>
                     <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 08012345678 atau 81012345678" required>
-                    <div class="helper-text">Format: 08xxx atau 628xxx (awalan +62 opsional)</div>
-                    <div class="error-message">Format nomor WhatsApp tidak valid</div>
+                    <div class="helper-text">Format: 08xxx atau 628xxx / 81xxx</div>
                 </div>
             </div>
 
-            <!-- SECTION 3: DATA PENERIMA -->
-            <div class="form-section">
-                <div class="section-title">📬 Data Penerima (di Indonesia)</div>
+            <div class="form-step" data-step="3">
+                <h3 style="color: var(--primary);">📬 Data Penerima (di Indonesia)</h3>
                 <div class="input-group">
                     <label for="nama-penerima" class="required">Nama Penerima</label>
                     <input type="text" id="nama-penerima" name="namaPenerima" placeholder="Contoh: Budi Santoso" required>
@@ -505,386 +379,486 @@
                 <div class="input-group">
                     <label for="whatsapp-penerima" class="required">Nomor WhatsApp/Telepon Penerima</label>
                     <input type="tel" id="whatsapp-penerima" name="whatsappPenerima" placeholder="Contoh: 08123456789" required>
-                    <div class="helper-text">Nomor yang dapat dihubungi oleh kurir</div>
                 </div>
                 <div class="input-group">
                     <label for="alamatIndo" class="required">Alamat Lengkap di Indonesia</label>
-                    <textarea id="alamatIndo" name="alamatIndo" rows="4" placeholder="Contoh: Jl. Merdeka No. 123, RT 01/RW 02, Kelurahan Suka Maju, Kecamatan Jaya, Kota Bekasi, Jawa Barat" required></textarea>
-                    <div class="helper-text">Tuliskan alamat selengkap mungkin (nama jalan, no rumah, RT/RW, kelurahan, kecamatan, kota, provinsi)</div>
+                    <textarea id="alamatIndo" name="alamatIndo" rows="3" placeholder="Jalan, No Rumah, RT/RW, Kelurahan, Kecamatan, Kota, Provinsi" required></textarea>
                 </div>
                 <div class="input-group">
-                    <label for="kodePosIndo" class="required">Kode Pos</label>
+                    <label for="kodePosIndo" class="required">Kode Pos (5 Digit)</label>
                     <input type="text" id="kodePosIndo" name="kodePosIndo" pattern="\d{5}" placeholder="Contoh: 17111" maxlength="5" required>
-                    <div class="helper-text">5 digit angka kode pos</div>
-                    <div class="error-message">Kode pos harus 5 digit angka</div>
                 </div>
             </div>
 
-            <!-- SECTION 4: DETAIL BARANG -->
-            <div class="form-section">
-                <div class="section-title">📦 Detail Barang</div>
+            <div class="form-step" data-step="4">
+                <h3 style="color: var(--primary);">📦 Detail Barang yang di Jastip</h3>
                 <div class="input-group">
-                    <label for="barangJastip" class="required">Barang yang Ingin di Jastip</label>
-                    <textarea id="barangJastip" name="barangJastip" rows="4" placeholder="Contoh:&#10;- Tas branded merk Louis Vuitton = 1 pcs&#10;- Dompet kulit = 2 pcs&#10;- Kosmetik Shiseido = 3 pcs" required></textarea>
-                    <div class="helper-text">Tuliskan nama barang beserta jumlahnya (gunakan format per baris untuk memudahkan)</div>
-                </div>
-
-                <div class="input-group">
-                    <label class="required">Apakah ada barang yang perlu kami belanjakan dari Jepang terlebih dahulu?</label>
-                    <div class="radio-group">
-                        <label>
-                            <input type="radio" id="belanjaYa" name="perluBelanja" value="Ya" required>
-                            <span>Ya, perlu dibelikan</span>
-                        </label>
-                        <label>
-                            <input type="radio" id="belanjaTidak" name="perluBelanja" value="Tidak">
-                            <span>Tidak, barang sudah ada</span>
-                        </label>
-                    </div>
-                    <div class="helper-text">Pilih "Ya" jika Anda ingin kami yang membelikan barang di Jepang. Pilih "Tidak" jika barang sudah siap untuk dikirim</div>
-                </div>
-            </div>
-
-            <!-- SECTION 5: PENGIRIMAN & ASURANSI -->
-            <div class="form-section">
-                <div class="section-title">🚚 Pengiriman & Asuransi</div>
-                <div class="input-group">
-                    <label for="jenisKirim" class="required">Jenis Pengiriman</label>
-                    <select id="jenisKirim" name="jenisKirim" required>
-                        <option value="" disabled selected>-- Pilih Jenis --</option>
-                        <option value="COD">COD (Cash on Delivery - Bayar di tempat)</option>
-                        <option value="Non COD">Non COD (Transfer terlebih dahulu)</option>
-                    </select>
-                    <div class="helper-text">COD: Pembayaran saat barang tiba. Non-COD: Transfer sebelum pengiriman</div>
-                </div>
-
-                <div class="input-group">
-                    <label for="asuransi" class="required">Pakai Asuransi?</label>
-                    <select id="asuransi" name="asuransi" required>
-                        <option value="" disabled selected>-- Pilih Jawaban --</option>
-                        <option value="Ya">Ya, saya ingin mengasuransikan barang</option>
-                        <option value="Tidak">Tidak</option>
-                    </select>
-                    <div class="helper-text">Asuransi melindungi barang Anda dari kerusakan/kehilangan selama pengiriman</div>
-                </div>
-
-                <!-- CONDITIONAL FIELD: HARGA BARANG -->
-                <div id="hargaBarangContainer" class="conditional-field">
-                    <div class="input-group">
-                        <label for="hargaBarang" class="required">Harga Barang yang Diasuransikan</label>
-                        <input type="number" id="hargaBarang" name="hargaBarang" placeholder="Contoh: 500000" min="0" step="1000">
-                        <div class="helper-text">Masukkan total harga barang saat pembelian (dalam Yen atau Rupiah). Contoh: 50000 (¥50,000) atau 500000 (Rp 500,000)</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 6: INFORMASI TAMBAHAN -->
-            <div class="form-section">
-                <div class="section-title">ℹ️ Informasi Tambahan</div>
-                <div class="input-group">
-                    <label for="akunSosmed" class="required">Akun ID LINE & sosmed (IG / TikTok)</label>
-                    <input type="text" id="akunSosmed" name="akunSosmed" placeholder="Contoh: LINE: @username, IG: @username " required>
-                    <div class="helper-text">Mohon sertakan ID LINE (untuk keperluan komunikasi), jika tidak ada dapat menggunakan sosmed seperti IG atau TikTok</div>
+                    <label for="barangJastip" class="required">List Barang & Jumlah</label>
+                    <textarea id="barangJastip" name="barangJastip" rows="4" placeholder="Contoh:&#10;- Tas = 1 pcs&#10;- Kosmetik = 3 pcs#10;- ..." required></textarea>
                 </div>
                 
                 <div class="input-group">
-                    <label for="kodeVoucher">Kode Voucher/Referral</label>
-                    <input type="text" id="kodeVoucher" name="kodeVoucher" placeholder="Contoh: YANOSHI2025">
-                    <div class="helper-text">Kosongkan jika tidak memiliki kode voucher</div>
+                    <label class="required">Perlu Kami Belanjakan Terlebih Dahulu (Jastip Belanja)?</label>
+                    <div class="radio-cards-container">
+                        <label class="radio-card">
+                            <input type="radio" id="belanjaYa" name="perluBelanja" value="Ya" required>
+                            <div class="card-content">
+                                <span>Ya, Tolong Belikan</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" id="belanjaTidak" name="perluBelanja" value="Tidak">
+                            <div class="card-content">
+                                <span>Tidak, Barang Sudah Ada</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="helper-text">Pilih "Ya" jika Anda ingin kami membelikan barang di Jepang.</div>
                 </div>
             </div>
-            
-            <button type="submit" class="submit-btn" id="submit-btn">🚀 Kirim Formulir</button>
-            
-            <div id="progressBarContainer">
-                <div id="progressBar">0%</div>
+
+            <div class="form-step" data-step="5">
+                <h3 style="color: var(--primary);">🚚 Pengiriman & Asuransi di Indonesia</h3>
+                <div class="input-group">
+                    <label for="jenisKirim" class="required">Jenis Pembayaran Ongkir</label>
+                    <div class="radio-cards-container">
+                        <label class="radio-card">
+                            <input type="radio" name="jenisKirim" value="COD" required>
+                            <div class="card-content">
+                                <span>COD (Bayar di Tempat)</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="jenisKirim" value="Non COD">
+                            <div class="card-content">
+                                <span>Transfer (Non COD)</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="asuransi" class="required">Pakai Asuransi Pengiriman?</label>
+                    <div class="radio-cards-container">
+                        <label class="radio-card">
+                            <input type="radio" id="asuransiYa" name="asuransi" value="Ya" required>
+                            <div class="card-content">
+                                <span>Ya, Asuransikan</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" id="asuransiTidak" name="asuransi" value="Tidak">
+                            <div class="card-content">
+                                <span>Tidak</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="hargaBarangContainer" class="conditional-field">
+                    <div class="input-group" style="background: var(--surface); padding: 15px; border-radius: 12px; border: 1px dashed var(--primary);">
+                        <label for="hargaBarang" class="required">Total Nilai/Harga Barang (Yen/Rupiah)</label>
+                        <input type="number" id="hargaBarang" name="hargaBarang" placeholder="Contoh: 50000" min="0">
+                        <div class="helper-text">Wajib diisi untuk perhitungan klaim asuransi.</div>
+                    </div>
+                </div>
             </div>
-            <div id="status"></div>
-            <a href="#" id="whatsapp-btn" class="whatsapp-btn" target="_blank">💬 Konfirmasi ke LINE Official</a>
+
+            <div class="form-step" data-step="6">
+                <h3 style="color: var(--primary);">ℹ️ Informasi Tambahan</h3>
+                <div class="input-group">
+                    <label for="akunSosmed" class="required">ID LINE / Instagram / TikTok</label>
+                    <input type="text" id="akunSosmed" name="akunSosmed" placeholder="Contoh: LINE: @yanoshi, IG: @yanoshi" required>
+                    <div class="helper-text">Untuk mempermudah komunikasi jika WhatsApp tidak bisa dihubungi.</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="kodeVoucher">Kode Voucher (Opsional)</label>
+                    <input type="text" id="kodeVoucher" name="kodeVoucher" placeholder="Masukkan kode promo">
+                </div>
+            </div>
+
+            <div class="form-step" data-step="7">
+                <h3 style="color: var(--primary); text-align: center;">📝 Summary Data Kamu</h3>
+                <p style="text-align: center; color: var(--text-light); font-size: 0.9rem;">
+                    Mohon periksa kembali datamu sebelum dikirim.
+                </p>
+                
+                <div style="background: #f8fafc; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0;" id="review-content">
+                    </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button type="button" class="btn btn-secondary" id="prevBtn" style="visibility: hidden;">Kembali</button>
+                <button type="button" class="btn btn-primary" id="nextBtn">Lanjut Langkah Berikutnya →</button>
+                <button type="submit" class="btn btn-success" id="submit-btn" style="display: none;">✨ Kirim Formulir</button>
+            </div>
 
         </form>
     </div>
 </main>
 
+<div id="circular-loader-overlay">
+    <div class="spinner"></div>
+    <div class="loading-text">Mengirim Data...</div>
+    <div style="color: #64748b; font-size: 0.9rem; margin-top: 5px;">Mohon tunggu sebentar</div>
+</div>
+
+<div id="success-popup-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:2000; align-items:center; justify-content:center; animation: fadeInSlide 0.3s;">
+    <div style="background:white; padding:2rem; border-radius:20px; text-align:center; max-width:400px; width:90%;">
+        <div style="font-size:4rem; margin-bottom:1rem;">🎉</div>
+        <h2 style="color:var(--primary); margin:0;">Berhasil!</h2>
+        <p style="color:#64748b;">Data jastip kamu sudah kami terima. Konfirmasi sekarang ke admin ya:</p>
+        <div style="display:grid; gap:10px; margin-top:20px;">
+            <a id="line-confirm-btn" href="#" target="_blank" style="background:#06c755; color:white; text-decoration:none; padding:12px; border-radius:10px; font-weight:bold;">Chat Line Admin (Rekomendasi)</a>
+            <a id="whatsapp-confirm-btn" href="#" target="_blank" style="background:white; border:2px solid #25D366; color:#25D366; text-decoration:none; padding:12px; border-radius:10px; font-weight:bold;">Chat WhatsApp Admin</a>
+        </div>
+    </div>
+</div>
+
 <script>
-    // ================================================================
-    // === MODAL CONSENT ===
-    // ================================================================
-    const consentOverlay = document.getElementById('consent-overlay');
-    const consentCheckbox = document.getElementById('consent-checkbox');
-    const agreeButton = document.getElementById('agree-button');
-    const mainContent = document.querySelector('main');
-
-    consentCheckbox.addEventListener('change', () => {
-        agreeButton.disabled = !consentCheckbox.checked;
-    });
-
-    agreeButton.addEventListener('click', () => {
-        if (consentCheckbox.checked) {
-            consentOverlay.classList.add('hidden');
-            mainContent.classList.remove('hidden');
-        }
-    });
-
-    // ================================================================
-    // === KONFIGURASI ===
-    // ================================================================
+    // === KONFIGURASI SCRIPT JEPANG-INDO ===
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMMUJolQu2ApmEDFHhbcnuIyh34YZgH-HY5CGmoQezs2fJYJvB8WLUVoBv79RvVZDX/exec';
-    const STORAGE_KEY = 'formDataJepangIndo';
-
-    // ================================================================
-    // === ELEMEN FORM ===
-    // ================================================================
-    const form = document.getElementById('submissionForm');
-    const tanggalJastipSelect = document.getElementById('tanggalJastip');
-    const namaInput = document.getElementById('nama');
-    const waInput = document.getElementById('whatsapp');
-    const namaPenerimaInput = document.getElementById('nama-penerima');
-    const waPenerimaInput = document.getElementById('whatsapp-penerima');
-    const alamatIndoInput = document.getElementById('alamatIndo');
-    const kodePosIndoInput = document.getElementById('kodePosIndo');
-    const barangJastipInput = document.getElementById('barangJastip');
-    const jenisKirimSelect = document.getElementById('jenisKirim');
-    const asuransiSelect = document.getElementById('asuransi');
-    const hargaBarangInput = document.getElementById('hargaBarang');
-    const hargaBarangContainer = document.getElementById('hargaBarangContainer');
-    const kodeVoucherInput = document.getElementById('kodeVoucher');
-    const akunSosmedInput = document.getElementById('akunSosmed');
     
-    const submitBtn = document.getElementById('submit-btn');
-    const progressBarContainer = document.getElementById('progressBarContainer');
-    const progressBar = document.getElementById('progressBar');
-    const statusDiv = document.getElementById('status');
-    const whatsappBtn = document.getElementById('whatsapp-btn');
+    // === LOGIKA POPUP CONSENT (SCROLL LOCK) ===
+    document.addEventListener("DOMContentLoaded", function() {
+        const termsBox = document.getElementById('terms-text');
+        const checkBox = document.getElementById('consent-checkbox');
+        const labelText = document.querySelector('#label-checkbox span');
+        const agreeBtn = document.getElementById('agree-button');
+        const overlay = document.getElementById('consent-overlay');
+        
+        // Cek LocalStorage
+        const hasAgreed = localStorage.getItem('yanoshi_jp_indo_agreed');
+        
+        if (hasAgreed === 'true') {
+            overlay.style.display = 'none';
+        } else {
+            document.body.style.overflow = 'hidden';
+        }
 
-    // ================================================================
-    // === CONDITIONAL FIELD: HARGA BARANG ===
-    // ================================================================
-    asuransiSelect.addEventListener('change', function() {
-        if (this.value === 'Ya') {
+        // 1. Deteksi Scroll
+        termsBox.addEventListener('scroll', function() {
+            if (termsBox.scrollTop + termsBox.clientHeight >= termsBox.scrollHeight - 10) {
+                checkBox.disabled = false;
+                labelText.style.color = 'var(--text-main)'; 
+                labelText.parentElement.title = "";
+            }
+        });
+
+        // 2. Deteksi Checkbox
+        checkBox.addEventListener('change', function() {
+            if (this.checked) {
+                agreeBtn.disabled = false;
+                agreeBtn.innerHTML = "Setuju & Lanjutkan 🚀";
+            } else {
+                agreeBtn.disabled = true;
+                agreeBtn.innerHTML = "Setuju & Lanjutkan";
+            }
+        });
+
+        // 3. Tombol Setuju
+        agreeBtn.addEventListener('click', function() {
+            overlay.style.transition = 'opacity 0.3s ease';
+            overlay.style.opacity = '0';
+            localStorage.setItem('yanoshi_jp_indo_agreed', 'true');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto'; 
+            }, 300);
+        });
+    });
+
+    // === MULTI STEP LOGIC ===
+    const steps = Array.from(document.querySelectorAll('.form-step'));
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const submitBtn = document.getElementById('submit-btn');
+    const progressFill = document.getElementById('progress-fill');
+    const stepText = document.getElementById('step-text');
+    const loaderOverlay = document.getElementById('circular-loader-overlay');
+    let currentStep = 0;
+
+    // === CONDITIONAL FIELD LOGIC (ASURANSI) ===
+    const asuransiRadios = document.getElementsByName('asuransi');
+    const hargaBarangContainer = document.getElementById('hargaBarangContainer');
+    const hargaBarangInput = document.getElementById('hargaBarang');
+
+    function checkAsuransi() {
+        const selected = document.querySelector('input[name="asuransi"]:checked');
+        if (selected && selected.value === 'Ya') {
             hargaBarangContainer.classList.add('show');
             hargaBarangInput.setAttribute('required', 'required');
         } else {
             hargaBarangContainer.classList.remove('show');
             hargaBarangInput.removeAttribute('required');
-            hargaBarangInput.value = '';
-        }
-    });
-
-    // ================================================================
-    // === VALIDASI FORM ===
-    // ================================================================
-    function validateWhatsApp(input) {
-        const value = input.value.replace(/[^0-9]/g, '');
-        const isValid = /^(08|628|8)\d{8,12}$/.test(value);
-        
-        if (value && !isValid) {
-            input.classList.add('invalid');
-            return false;
-        } else {
-            input.classList.remove('invalid');
-            return true;
+            // Jangan clear value agar auto-save tetap jalan, hanya hide saja
         }
     }
+    
+    // Attach listener to radios
+    asuransiRadios.forEach(radio => radio.addEventListener('change', checkAsuransi));
 
-    function validateKodePos(input) {
-        const value = input.value;
-        const isValid = /^\d{5}$/.test(value);
+    // === AUTO-SAVE SYSTEM (LOCALSTORAGE) ===
+    function saveFormProgress() {
+        const formData = new FormData(document.getElementById('submissionForm'));
+        const formEntries = Object.fromEntries(formData);
         
-        if (value && !isValid) {
-            input.classList.add('invalid');
-            return false;
-        } else {
-            input.classList.remove('invalid');
-            return true;
-        }
-    }
-
-    // Event listeners untuk validasi real-time
-    waInput.addEventListener('blur', () => validateWhatsApp(waInput));
-    waPenerimaInput.addEventListener('blur', () => validateWhatsApp(waPenerimaInput));
-    kodePosIndoInput.addEventListener('blur', () => validateKodePos(kodePosIndoInput));
-
-    // ================================================================
-    // === FUNGSI STORAGE ===
-    // ================================================================
-    function saveFormData() {
-        const data = {
-            tanggalJastip: tanggalJastipSelect.value,
-            nama: namaInput.value,
-            whatsapp: waInput.value,
-            namaPenerima: namaPenerimaInput.value,
-            whatsappPenerima: waPenerimaInput.value,
-            alamatIndo: alamatIndoInput.value,
-            kodePosIndo: kodePosIndoInput.value,
-            barangJastip: barangJastipInput.value,
-            perluBelanja: document.querySelector('input[name="perluBelanja"]:checked')?.value || '',
-            jenisKirim: jenisKirimSelect.value,
-            asuransi: asuransiSelect.value,
-            hargaBarang: hargaBarangInput.value,
-            kodeVoucher: kodeVoucherInput.value,
-            akunSosmed: akunSosmedInput.value,
+        const saveData = {
+            step: currentStep,
+            data: formEntries,
+            timestamp: new Date().toISOString()
         };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        localStorage.setItem('yanoshi_jp_indo_draft', JSON.stringify(saveData));
     }
 
-    function loadFormData() {
-        const savedData = localStorage.getItem(STORAGE_KEY);
-        if (savedData) {
-            const data = JSON.parse(savedData);
-            tanggalJastipSelect.value = data.tanggalJastip || '';
-            namaInput.value = data.nama || '';
-            waInput.value = data.whatsapp || '';
-            namaPenerimaInput.value = data.namaPenerima || '';
-            waPenerimaInput.value = data.whatsappPenerima || '';
-            alamatIndoInput.value = data.alamatIndo || '';
-            kodePosIndoInput.value = data.kodePosIndo || '';
-            barangJastipInput.value = data.barangJastip || '';
-            jenisKirimSelect.value = data.jenisKirim || '';
-            asuransiSelect.value = data.asuransi || '';
-            hargaBarangInput.value = data.hargaBarang || '';
-            kodeVoucherInput.value = data.kodeVoucher || '';
-            akunSosmedInput.value = data.akunSosmed || '';
-            
-            // Trigger asuransi change untuk show/hide harga barang
-            if (data.asuransi === 'Ya') {
-                hargaBarangContainer.classList.add('show');
-                hargaBarangInput.setAttribute('required', 'required');
-            }
-            
-            if (data.perluBelanja) {
-                const radioBtn = document.querySelector(`input[name="perluBelanja"][value="${data.perluBelanja}"]`);
-                if(radioBtn) radioBtn.checked = true;
-            }
+    function loadFormProgress() {
+        const savedJson = localStorage.getItem('yanoshi_jp_indo_draft');
+        if (savedJson) {
+            try {
+                const savedState = JSON.parse(savedJson);
+                
+                // Restore Inputs
+                if (savedState.data) {
+                    for (const [key, value] of Object.entries(savedState.data)) {
+                        const input = document.querySelector(`[name="${key}"]`);
+                        if (input) {
+                            if (input.type === 'radio') {
+                                const radio = document.querySelector(`[name="${key}"][value="${value}"]`);
+                                if (radio) radio.checked = true;
+                            } else {
+                                input.value = value;
+                            }
+                        }
+                    }
+                }
+                
+                // Restore Step
+                if (typeof savedState.step !== 'undefined') {
+                    currentStep = savedState.step;
+                }
+
+                // Trigger logic asuransi
+                checkAsuransi();
+                
+            } catch (e) { console.error("Error loading draft", e); }
         }
+        updateUI(currentStep);
     }
 
-    function clearFormData() {
-        localStorage.removeItem(STORAGE_KEY);
+    function clearStorage() {
+        localStorage.removeItem('yanoshi_jp_indo_draft');
     }
 
-    const handleBeforeUnload = (event) => {
-        event.preventDefault();
-        event.returnValue = '';
-    };
+    // === NAVIGATION & UI ===
+    function updateUI(n) {
+        steps.forEach((step, index) => step.classList.toggle('active', index === n));
+        
+        const progress = ((n + 1) / steps.length) * 100;
+        progressFill.style.width = `${progress}%`;
+        stepText.innerText = `Langkah ${n + 1} / ${steps.length}`;
 
-    // ================================================================
-    // === EVENT LISTENERS ===
-    // ================================================================
-    document.addEventListener('DOMContentLoaded', loadFormData);
-    form.addEventListener('input', saveFormData);
-    form.addEventListener('input', () => { 
-        window.addEventListener('beforeunload', handleBeforeUnload); 
+        prevBtn.style.visibility = n === 0 ? 'hidden' : 'visible';
+        
+        if (n === steps.length - 1) { // Step 7 (Review)
+            nextBtn.style.display = 'none';
+            submitBtn.style.display = 'block';
+            renderReviewPage(); 
+        } else {
+            nextBtn.style.display = 'block';
+            submitBtn.style.display = 'none';
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function validateStep(n) {
+        const currentStepEl = steps[n];
+        const inputs = currentStepEl.querySelectorAll('input[required], select[required], textarea[required]');
+        let isValid = true;
+
+        inputs.forEach(input => {
+            let fieldValid = true;
+            
+            // Check Empty
+            if (input.type === 'radio') {
+                const name = input.name;
+                if(!currentStepEl.querySelector(`input[name="${name}"]:checked`)) fieldValid = false;
+            } else {
+                if (!input.value.trim()) fieldValid = false;
+            }
+
+            // Specific Regex Validation
+            if (input.id === 'whatsapp' || input.id === 'whatsapp-penerima') {
+                 // Hapus karakter non-digit
+                 const val = input.value.replace(/[^0-9]/g, '');
+                 if (!/^(08|628|8)\d{8,12}$/.test(val)) fieldValid = false;
+            }
+            if (input.id === 'kodePosIndo') {
+                if (!/^\d{5}$/.test(input.value)) fieldValid = false;
+            }
+
+            if (!fieldValid) {
+                input.style.borderColor = 'var(--error)';
+                // Highlight parent for radios
+                if(input.type === 'radio') {
+                    const container = input.closest('.input-group');
+                    if(container) container.style.border = '1px solid var(--error)';
+                }
+                isValid = false;
+            } else {
+                input.style.borderColor = '#e2e8f0';
+                if(input.type === 'radio') {
+                    const container = input.closest('.input-group');
+                    if(container) container.style.border = 'none';
+                }
+            }
+            
+            // Remove error on input
+            input.addEventListener('input', function() { 
+                this.style.borderColor = '#e2e8f0'; 
+            });
+        });
+        
+        if(!isValid) {
+            currentStepEl.style.animation = 'none';
+            currentStepEl.offsetHeight; 
+            currentStepEl.style.animation = 'shake 0.5s'; 
+            alert("Mohon lengkapi data yang wajib diisi dengan benar.");
+        }
+        return isValid;
+    }
+
+    // Add shake animation style
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = `@keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }`;
+    document.head.appendChild(styleSheet);
+
+    // === RENDER SUMMARY ===
+    function renderReviewPage() {
+        const container = document.getElementById('review-content');
+        
+        // Ambil data
+        const getVal = (id) => document.getElementById(id).value;
+        const getRadio = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value || '-';
+
+        const data = {
+            'Tanggal Jastip': getVal('tanggalJastip'),
+            'Pengirim (Jepang)': getVal('nama'),
+            'WA Pengirim': getVal('whatsapp'),
+            'Penerima (Indo)': getVal('nama-penerima'),
+            'WA Penerima': getVal('whatsapp-penerima'),
+            'Alamat Indo': getVal('alamatIndo'),
+            'Kode Pos': getVal('kodePosIndo'),
+            'Barang': getVal('barangJastip'),
+            'Jastip Belanja': getRadio('perluBelanja'),
+            'Pembayaran': getRadio('jenisKirim'),
+            'Asuransi': getRadio('asuransi'),
+            'Total Harga Barang': getRadio('asuransi') === 'Ya' ? getVal('hargaBarang') : 'N/A'
+        };
+        
+        let html = '<div class="review-list">';
+        for (const [key, value] of Object.entries(data)) {
+            html += `
+                <div class="review-item">
+                    <span class="review-label">${key}</span>
+                    <span class="review-value">${value || '-'}</span>
+                </div>
+            `;
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // === BUTTON LISTENERS ===
+    nextBtn.addEventListener('click', () => {
+        if (validateStep(currentStep)) {
+            saveFormProgress();
+            currentStep++;
+            updateUI(currentStep);
+        }
     });
 
-    // ================================================================
-    // === FORM SUBMISSION ===
-    // ================================================================
-    form.addEventListener('submit', async (e) => {
+    prevBtn.addEventListener('click', () => {
+        saveFormProgress();
+        currentStep--;
+        updateUI(currentStep);
+    });
+
+    document.getElementById('submissionForm').addEventListener('input', () => {
+        // Debounce simple save
+        setTimeout(saveFormProgress, 500);
+    });
+
+    // === SUBMISSION ===
+    document.getElementById('submissionForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Validasi final sebelum submit
-        const isWAValid = validateWhatsApp(waInput);
-        const isWAPenerimaValid = validateWhatsApp(waPenerimaInput);
-        const isKodePosValid = validateKodePos(kodePosIndoInput);
-        
-        if (!isWAValid || !isWAPenerimaValid || !isKodePosValid) {
-            statusDiv.innerText = '❌ Mohon perbaiki data yang tidak valid!';
-            statusDiv.style.color = 'var(--error-color)';
-            return;
-        }
-
+        loaderOverlay.style.display = 'flex';
         submitBtn.disabled = true;
-        submitBtn.innerText = '⏳ Mengirim...';
-        statusDiv.innerText = '';
-        whatsappBtn.style.display = 'none';
-        progressBarContainer.style.display = 'block';
-        progressBar.style.width = '25%';
-        progressBar.innerText = 'Mempersiapkan data...';
-        
+
         try {
-            // Ambil data dari form
+            // Konstruksi payload sesuai struktur Google Script JapanIndo yang asli
             const textData = {
-                tanggalJastip: tanggalJastipSelect.value,
-                nama: namaInput.value,
-                whatsapp: waInput.value,
-                namaPenerima: namaPenerimaInput.value,
-                whatsappPenerima: waPenerimaInput.value,
-                alamatIndo: alamatIndoInput.value,
-                kodePosIndo: kodePosIndoInput.value,
-                barangJastip: barangJastipInput.value,
-                perluBelanja: document.querySelector('input[name="perluBelanja"]:checked')?.value || 'Tidak diisi',
-                jenisKirim: jenisKirimSelect.value,
-                asuransi: asuransiSelect.value,
-                hargaBarang: asuransiSelect.value === 'Ya' ? hargaBarangInput.value : '',
-                kodeVoucher: kodeVoucherInput.value,
-                akunSosmed: akunSosmedInput.value
+                tanggalJastip: document.getElementById('tanggalJastip').value,
+                nama: document.getElementById('nama').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                namaPenerima: document.getElementById('nama-penerima').value,
+                whatsappPenerima: document.getElementById('whatsapp-penerima').value,
+                alamatIndo: document.getElementById('alamatIndo').value,
+                kodePosIndo: document.getElementById('kodePosIndo').value,
+                barangJastip: document.getElementById('barangJastip').value,
+                perluBelanja: document.querySelector('input[name="perluBelanja"]:checked')?.value || 'Tidak',
+                jenisKirim: document.querySelector('input[name="jenisKirim"]:checked')?.value || '',
+                asuransi: document.querySelector('input[name="asuransi"]:checked')?.value || 'Tidak',
+                hargaBarang: document.querySelector('input[name="asuransi"]:checked')?.value === 'Ya' ? document.getElementById('hargaBarang').value : '',
+                kodeVoucher: document.getElementById('kodeVoucher').value,
+                akunSosmed: document.getElementById('akunSosmed').value
             };
-            
-            const payload = textData;
-        
-            progressBar.style.width = '50%';
-            progressBar.innerText = 'Mengunggah data...';
 
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 redirect: "follow",
                 headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(textData)
             });
-        
-            progressBar.style.width = '80%';
-            progressBar.innerText = 'Memproses respons...';
-
+            
             if (response.ok) {
                 const result = await response.json();
                 if (result.status === 'success') {
-                    statusDiv.innerText = '✅ Data berhasil dikirim!';
-                    statusDiv.style.color = 'var(--success-color)';
-
-                    const tanggalHariIni = new Date();
-                    const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                    const tanggalFormatted = tanggalHariIni.toLocaleDateString('id-ID', options);
+                    // SUKSES
+                    loaderOverlay.style.display = 'none';
+                    clearStorage();
                     
-                    const lineMessage = `Hai min, Saya ${textData.nama} sudah isi form Jastip Indo-Jepang per tanggal ${tanggalFormatted}. Mohon dicek ya, terima kasih!`;
-                    const encodedMessage = encodeURIComponent(lineMessage);
-                    const lineLink = `https://line.me/ti/p/@506hjesi`;
-
-                    whatsappBtn.href = lineLink;
-                    whatsappBtn.style.display = 'block';
+                    const name = textData.nama;
+                    const tanggalHariIni = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
                     
-                    form.reset();
-                    hargaBarangContainer.classList.remove('show');
-                    clearFormData();
-                    window.removeEventListener('beforeunload', handleBeforeUnload);
+                    const lineLink = "https://line.me/ti/p/@506hjesi";
+                    const lineMsg = `Hai min, Saya ${name} sudah isi form Jastip Jepang-Indo per tanggal ${tanggalHariIni}. Mohon dicek ya, terima kasih!`;
                     
+                    // Untuk WA, kita direct ke Line sesuai request asli, atau WA alternatif
+                    // Di sini saya arahkan ke Line sesuai kode asli japanindo.html
+                    document.getElementById('line-confirm-btn').href = lineLink;
+                    // Button WA sebagai alternatif chat
+                    document.getElementById('whatsapp-confirm-btn').href = `https://wa.me/628131053924?text=${encodeURIComponent(lineMsg)}`;
+                    
+                    document.getElementById('success-popup-overlay').style.display = 'flex';
                 } else {
-                    throw new Error(result.message || 'Terjadi kesalahan di server.');
+                    throw new Error(result.message || 'Gagal menyimpan data.');
                 }
             } else {
-                throw new Error(`Gagal terhubung ke server (Status: ${response.status})`);
+                throw new Error("Gagal menghubungi server.");
             }
-            
-            progressBar.style.width = '100%';
-            progressBar.innerText = '✅ Selesai!';
 
         } catch (error) {
-            statusDiv.innerText = `❌ Error: ${error.message}`;
-            statusDiv.style.color = 'var(--error-color)';
-            progressBar.style.backgroundColor = 'var(--error-color)';
-            progressBar.innerText = 'Gagal';
-        } finally {
+            alert("Terjadi kesalahan: " + error.message);
+            loaderOverlay.style.display = 'none';
             submitBtn.disabled = false;
-            submitBtn.innerText = '🚀 Kirim Formulir';
-            setTimeout(() => {
-                if(progressBar.style.backgroundColor !== 'var(--error-color)') {
-                    progressBarContainer.style.display = 'none';
-                    progressBar.style.width = '0%';
-                }
-                progressBar.style.backgroundColor = '';
-            }, 5000);
         }
     });
+
+    // === INIT ===
+    window.addEventListener('load', loadFormProgress);
+
 </script>
 
 </body>
