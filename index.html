@@ -163,57 +163,57 @@
         }
         
         .helper-text {
-						/* Pastikan tulisan dianggap sebagai blok terpisah */
-						display: block !important; 
-						width: 100%;
-						
-						/* Beri jarak atas agar tidak nempel dengan tombol */
-						margin-top: 10px !important; 
-						
-						/* Atur warna dan ukuran agar rapi */
-						font-size: 0.8rem; 
-						color: var(--text-light);
-						line-height: 1.4;
-				}
+                        /* Pastikan tulisan dianggap sebagai blok terpisah */
+                        display: block !important; 
+                        width: 100%;
+                        
+                        /* Beri jarak atas agar tidak nempel dengan tombol */
+                        margin-top: 10px !important; 
+                        
+                        /* Atur warna dan ukuran agar rapi */
+                        font-size: 0.8rem; 
+                        color: var(--text-light);
+                        line-height: 1.4;
+                }
         .helper-text::before { content: 'ℹ️'; font-size: 0.9rem; }
 
         /* --- RADIO CARDS (Pilihan Kotak) --- */
         .radio-cards-container { 
-						display: grid; 
-						grid-template-columns: 1fr 1fr; 
-						gap: 20px; 
-						margin-bottom: 30px !important;
-				}
+                        display: grid; 
+                        grid-template-columns: 1fr 1fr; 
+                        gap: 20px; 
+                        margin-bottom: 30px !important;
+                }
         .radio-card { 
-						cursor: pointer; 
-						position: relative; 
-				}
+                        cursor: pointer; 
+                        position: relative; 
+                }
         .radio-card input { 
-						position: absolute; 
-						opacity: 0; 
-				}
+                        position: absolute; 
+                        opacity: 0; 
+                }
         .card-content {
             display: flex; 
-						flex-direction: column; 
-						align-items: center; 
-						justify-content: center; 
-						padding: 7px 5px;
+                        flex-direction: column; 
+                        align-items: center; 
+                        justify-content: center; 
+                        padding: 7px 5px;
             background: #fff; 
-						border: 2px solid #e2e8f0; 
-						border-radius: var(--radius-sm); 
-						transition: all 0.3s;
+                        border: 2px solid #e2e8f0; 
+                        border-radius: var(--radius-sm); 
+                        transition: all 0.3s;
             text-align: center; 
-						height: 100%;
+                        height: 100%;
         }
         .card-content span { 
-						font-weight: 600; 
-						font-size: 0.85rem;
-				}
+                        font-weight: 600; 
+                        font-size: 0.85rem;
+                }
         .radio-card input:checked + .card-content { 
-						border-color: var(--primary); 
-						background: #eff6ff; 
-						color: var(--primary); 
-				}
+                        border-color: var(--primary); 
+                        background: #eff6ff; 
+                        color: var(--primary); 
+                }
         
         /* --- CONDITIONAL FIELD ANIMATION --- */
         .conditional-field {
@@ -268,29 +268,29 @@
 
         @media (max-width: 600px) {
             .glass-container { 
-								padding: 1.5rem; 
-								width: 90%; 
-						}
+                                padding: 1.5rem; 
+                                width: 90%; 
+                        }
             .nav-buttons { 
-								flex-direction: column-reverse; 
-						}
+                                flex-direction: column-reverse; 
+                        }
             .fixed-header { 
-								padding: 15px 1rem; 
-						}
+                                padding: 15px 1rem; 
+                        }
             .radio-cards-container { 
-								/* Paksa tetap 2 kolom (bersebelahan) */
-								grid-template-columns: 1fr 1fr !important; 
-								gap: 20px; /* Jarak antar kotak lebih rapat */
-								margin-bottom: 30px !important;
-						}
-						.card-content {
-								padding: 5px 4px !important; /* Padding sangat tipis */
-								min-height: auto; /* Hilangkan tinggi minimum jika ada */
-						}
-						.card-content span {
-								font-size: 0.75rem !important; /* Ukuran font lebih kecil (sekitar 12px) */
-								line-height: 1.2; /* Jarak antar baris teks lebih rapat */
-						}
+                                /* Paksa tetap 2 kolom (bersebelahan) */
+                                grid-template-columns: 1fr 1fr !important; 
+                                gap: 20px; /* Jarak antar kotak lebih rapat */
+                                margin-bottom: 30px !important;
+                        }
+                        .card-content {
+                                padding: 5px 4px !important; /* Padding sangat tipis */
+                                min-height: auto; /* Hilangkan tinggi minimum jika ada */
+                        }
+                        .card-content span {
+                                font-size: 0.75rem !important; /* Ukuran font lebih kecil (sekitar 12px) */
+                                line-height: 1.2; /* Jarak antar baris teks lebih rapat */
+                        }
         }
     </style>
 </head>
@@ -329,7 +329,7 @@
 
 <header class="fixed-header">
     <div class="header-logo">
-				<img src="https://yanoshijapan.github.io/jastip/jastip%202.png" alt="Yanoshi Logo">
+                <img src="https://yanoshijapan.github.io/jastip/jastip%202.png" alt="Yanoshi Logo">
     </div>
     <a href="https://yanoshijapan.github.io/jastipyanoshi/" class="header-btn">
         🏠 Ke Website
@@ -351,8 +351,9 @@
                     <select id="tanggalJastip" name="tanggalJastip" required>
                         <option value="" disabled selected>-- Pilih Tanggal --</option>
                         <option value="26 November 2025" disabled>26 November 2025 CLOSE)</option>
-                        <option value="Desember 2025">Desember 2025 (tanggal menyusul)</option>
-												<option value="Januari 2026">Januari 2026 (tanggal menyusul)</option>
+                        <option value="Desember 2025" disabled>Desember 2025 (CLOSE)</option>
+                        <option value="Januari 2026">Januari 2026</option>
+						<option value="Februari 2026">Februari 2026</option>
                     </select>
                 </div>
             </div>
@@ -511,7 +512,7 @@
         <p style="color:#64748b;">Data jastip kamu sudah kami terima. Konfirmasi sekarang ke admin ya:</p>
         <div style="display:grid; gap:10px; margin-top:20px;">
             <a id="line-confirm-btn" href="#" target="_blank" style="background:#06c755; color:white; text-decoration:none; padding:12px; border-radius:10px; font-weight:bold;">Chat Line Admin (Rekomendasi)</a>
-            <a id="whatsapp-confirm-btn" href="#" target="_blank" style="background:white; border:2px solid #25D366; color:#25D366; text-decoration:none; padding:12px; border-radius:10px; font-weight:bold;">Chat WhatsApp Admin</a>
+            <a id="instagram-confirm-btn" href="https://www.instagram.com/yanoshi_jastip" target="_blank" style="background:white; border:2px solid #E1306C; color:#E1306C; text-decoration:none; padding:12px; border-radius:10px; font-weight:bold;">Konfirmasi ke Instagram</a>
         </div>
     </div>
 </div>
@@ -833,13 +834,11 @@
                     const tanggalHariIni = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
                     
                     const lineLink = "https://line.me/ti/p/@506hjesi";
-                    const lineMsg = `Hai min, Saya ${name} sudah isi form Jastip Jepang-Indo per tanggal ${tanggalHariIni}. Mohon dicek ya, terima kasih!`;
+                    // Note: Instagram tidak mendukung deep-link text semudah WA/Line secara default.
                     
-                    // Untuk WA, kita direct ke Line sesuai request asli, atau WA alternatif
-                    // Di sini saya arahkan ke Line sesuai kode asli japanindo.html
                     document.getElementById('line-confirm-btn').href = lineLink;
-                    // Button WA sebagai alternatif chat
-                    document.getElementById('whatsapp-confirm-btn').href = `https://wa.me/628131053924?text=${encodeURIComponent(lineMsg)}`;
+                    // Update Button Instagram
+                    document.getElementById('instagram-confirm-btn').href = "https://www.instagram.com/yanoshi_jastip";
                     
                     document.getElementById('success-popup-overlay').style.display = 'flex';
                 } else {
